@@ -72,7 +72,7 @@ class NewModelViewer(
 
     var normalizeSkinningWeights = true
 
-    var cameraFocalLength = 28f
+    var cameraFocalLength = 20f
         set(value) {
             field = value
             updateCameraProjection()
@@ -416,7 +416,7 @@ class NewModelViewer(
     companion object {
         private val kDefaultObjectPositionForModel = Float3(0.0f, 1f, -6.0f)
         private val kDefaultObjectPositionForRoom = Float3(0.0f, 4.9f, -2f)
-        private val kCameraDefaultPos = Float3(0.0F, 0.2F,1F)
+        private val kCameraDefaultPos = Float3(0.0F, 1.2F,1F)
         private val deltaz = kDefaultObjectPositionForModel[2] - kCameraDefaultPos[2]
     }
 }

@@ -45,7 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     
-    def filament_version = "1.31.0"
+    def filament_version = "1.31.2"
     implementation "com.google.android.filament:filament-android:$filament_version"
     implementation "com.google.android.filament:filament-utils-android:$filament_version"
     implementation "com.google.android.filament:gltfio-android:$filament_version"
