@@ -8,8 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.filament.*
 import com.google.android.filament.utils.*
 import java.nio.ByteBuffer
-import android.util.Log
-import java.nio.channels.Channels
+import com.yoyo.multigltfpoc.RpmMorph
 
 
 class MainActivity : AppCompatActivity() {
@@ -83,8 +82,11 @@ class MainActivity : AppCompatActivity() {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
             choreographer.postFrameCallback(this)
             modelViewer.animatorForModel?.apply {
-                if (animationCount > 0) {
-                    applyAnimation(0, seconds.toFloat())
+//                if (animationCount > 0) {
+//                    applyAnimation(0, seconds.toFloat())
+//                }
+                if (modelViewer.assetForModel !== null) {
+                     updateMorphTargets()
                 }
                 updateBoneMatrices()
 
@@ -96,6 +98,28 @@ class MainActivity : AppCompatActivity() {
             modelViewer.assetForRoom?.apply {
                 //modelViewer.transformToUnitCubeForRoom()
             }
+        }
+    }
+
+    // Update MorphTargets.
+    private fun updateMorphTargets() {
+        var finalEntity = modelViewer.assetForModel!!.getFirstEntityByName(MorphRpm.Wolf3D_Avatar)
+        if (finalEntity == 0) {
+            finalEntity = modelViewer.assetForModel!!.getFirstEntityByName(MorphRpm.Wolf3D_Head)
+        }
+        val faceEntity = modelViewer.engine.renderableManager.getInstance(
+            finalEntity
+        )
+        RenderableManager
+            .Builder(1).morphing(2).build(modelViewer.engine, faceEntity)
+        RpmMorph.smile(
+            1F
+        ).let {
+            modelViewer.engine.renderableManager.setMorphWeights(
+                faceEntity,
+                it,
+                0
+            )
         }
     }
 
@@ -150,11 +174,11 @@ class MainActivity : AppCompatActivity() {
         val view = modelViewer.view
         // on mobile, better use lower quality color buffer
         view.renderQuality = view.renderQuality.apply {
-            hdrColorBuffer = com.google.android.filament.View.QualityLevel.LOW
+            hdrColorBuffer = com.google.android.filament.View.QualityLevel.ULTRA
         }
         view.dynamicResolutionOptions = view.dynamicResolutionOptions.apply {
-            enabled = true
-            quality = com.google.android.filament.View.QualityLevel.LOW
+//            enabled = true
+            quality = com.google.android.filament.View.QualityLevel.ULTRA
         }
 
         /*      // dynamic resolution often helps a lot
