@@ -72,7 +72,7 @@ class NewModelViewer(
 
     var normalizeSkinningWeights = true
 
-    var cameraFocalLength = 50f
+    var cameraFocalLength = 20f
         set(value) {
             field = value
             updateCameraProjection()
@@ -294,9 +294,17 @@ class NewModelViewer(
         assetForRoom?.let { populateScene(it) }
         // Extract the camera basis from the helper and push it to the Filament camera.
         cameraManipulatorForModel.getLookAt(eyePos, target, upward)
+        val lookAt = mutableListOf(
+            hipsMovement[12], hipsMovement[13] + deltaY, hipsMovement[14] + deltaZ,
+            hipsMovement[12], hipsMovement[13], hipsMovement[14],
+        )
         camera.lookAt(
-            0.0, 1.2,8.0,
-            hipsMovement[12], hipsMovement[13] , hipsMovement[14] ,
+            lookAt[0],
+            lookAt[1],
+            lookAt[2],
+            lookAt[3],
+            lookAt[4],
+            lookAt[5],
             upward[0], upward[1], upward[2]
         )
 
@@ -419,9 +427,10 @@ class NewModelViewer(
 
 
     companion object {
-        private val kDefaultObjectPositionForModel = Float3(0.0f, 1f, -6.0f)
+        private val kDefaultObjectPositionForModel = Float3(0.0f, 1f, -8.0f)
         private val kDefaultObjectPositionForRoom = Float3(0.0f, 4.9f, -2f)
-        private val kCameraDefaultPos = Float3(0.0F, 1.2F,8F)
-        private val deltaz = kDefaultObjectPositionForModel[2] - kCameraDefaultPos[2]
+        private val kCameraDefaultPos = Float3(0.0F, 1.2F,0F)
+        val deltaZ = kotlin.math.abs(kDefaultObjectPositionForModel[2] - kCameraDefaultPos[2])
+        val deltaY = kotlin.math.abs(kDefaultObjectPositionForModel[1] - kCameraDefaultPos[1])
     }
 }
