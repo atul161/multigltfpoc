@@ -82,9 +82,9 @@ class MainActivity : AppCompatActivity() {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
             choreographer.postFrameCallback(this)
             modelViewer.animatorForModel?.apply {
-//                if (animationCount > 0) {
-//                    applyAnimation(0, seconds.toFloat())
-//                }
+                if (animationCount > 0) {
+                    applyAnimation(0, seconds.toFloat())
+                }
                 if (modelViewer.assetForModel !== null) {
                      updateMorphTargets()
                 }

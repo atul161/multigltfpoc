@@ -72,7 +72,7 @@ class NewModelViewer(
 
     var normalizeSkinningWeights = true
 
-    var cameraFocalLength = 20f
+    var cameraFocalLength = 50f
         set(value) {
             field = value
             updateCameraProjection()
@@ -216,6 +216,10 @@ class NewModelViewer(
             val transform = scale(Float3(scaleFactor)) * translation(-center)
             tm.setTransform(tm.getInstance(asset.root), transpose(transform).toFloatArray())
         }
+
+
+
+
     }
     /**
      * Removes the transformation that was set up via transformToUnitCube.
@@ -290,11 +294,11 @@ class NewModelViewer(
         assetForRoom?.let { populateScene(it) }
         // Extract the camera basis from the helper and push it to the Filament camera.
         cameraManipulatorForModel.getLookAt(eyePos, target, upward)
-/*        camera.lookAt(
-            eyePos[0],eyePos[1],hipsMovement[14] - deltaz,
+        camera.lookAt(
+            0.0, 1.2,8.0,
             hipsMovement[12], hipsMovement[13] , hipsMovement[14] ,
             upward[0], upward[1], upward[2]
-        )*/
+        )
 
         // Render the scene, unless the renderer wants to skip the frame.
         if (renderer.beginFrame(swapChain!!, frameTimeNanos)) {
@@ -302,6 +306,7 @@ class NewModelViewer(
             renderer.endFrame()
         }
     }
+
 
     private fun populateScene(asset: FilamentAsset) {
         val rcm = engine.renderableManager
@@ -416,7 +421,7 @@ class NewModelViewer(
     companion object {
         private val kDefaultObjectPositionForModel = Float3(0.0f, 1f, -6.0f)
         private val kDefaultObjectPositionForRoom = Float3(0.0f, 4.9f, -2f)
-        private val kCameraDefaultPos = Float3(0.0F, 1.2F,1F)
+        private val kCameraDefaultPos = Float3(0.0F, 1.2F,8F)
         private val deltaz = kDefaultObjectPositionForModel[2] - kCameraDefaultPos[2]
     }
 }
